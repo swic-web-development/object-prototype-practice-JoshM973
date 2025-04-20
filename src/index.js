@@ -29,7 +29,26 @@ export function extractMonsterNames(monsters) {
  * @param {Object} monsters - The monsters data object
  * @return {Object} - Object with lowThreat, mediumThreat, and highThreat arrays
  */
+
 export function organizeByThreatLevel(monsters) {
+  const threatLevels = {
+    lowThreat: [],
+    mediumThreat: [],
+    highThreat: [],
+  }
+
+  Object.entries(monsters).forEach(([name, { health, damage }]) => {
+    const threatLevel = health * damage
+    if (threatLevel < 10000) {
+      threatLevels.lowThreat.push({ name, threatLevel })
+    } else if (threatLevel <= 50000) {
+      threatLevels.mediumThreat.push({ name, threatLevel })
+    } else {
+      threatLevels.highThreat.push({ name, threatLevel })
+    }
+  })
+
+  return threatLevels
   // TODO: Transform the data structure to organize monsters by threat level
   // instead of difficulty
   // lowThreat: < 10,000
